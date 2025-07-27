@@ -138,23 +138,11 @@ This project shows competency in Linux administration, remote access control, an
 
 ---
 
-## 📸 Screenshot Gallery
+## 📸 Screenshot Gallery (WIP)
 
 Stored under `/images/`:
 - `setup_overview.jpg` – physical lab setup
-- `touchscreen_removed.png` – post-squeekboard cleanup
 - `ssh-key-login.png` – successful SSH session
-- `sshd_config_hardened.png` – config before restart
-
----
-
-## 📁 Key Files and Scripts
-
-| File | Purpose |
-|------|---------|
-| `01-ssh-hardening.md` | This markdown file |
-| `/etc/ssh/sshd_config` | Hardened SSH config |
-| `~/.ssh/authorized_keys` | Installed SSH public key |
 
 ---
 

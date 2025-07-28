@@ -98,8 +98,32 @@ Local Wi-Fi LAN with SSH access from main workstation. DHCP assigned IP (`192.16
   ```bash
   sudo systemctl restart ssh
   ```
+### 🔹 Phase 3: sudo Lockout and Root Password Issue
 
-### 🔹 Phase 3: Testing
+After hardening the SSH configuration and setting up the new `sabrina-admin` user, I encountered a critical access issue:
+
+- The `sabrina-admin` user was **not in the `sudoers` file**, and thus could not use `sudo`.
+- The `root` user had a **pre-set and unknown password**, making it impossible to escalate privileges locally.
+- The original `pi` user account was not available, and SSH password authentication was already disabled per the hardening process.
+
+This left me in a position where **no user had administrative access**, effectively locking me out of making system-level changes on the Raspberry Pi.
+
+---
+
+### 🔹 Recovery Process Using Fedora Linux
+
+To resolve this, I physically removed the microSD card from the Raspberry Pi and used a Fedora workstation to:
+
+1. **Mount the Raspberry Pi's root file system.**
+2. **Use `chroot` to enter the Pi's environment.**
+3. **Reset the root password.**
+4. **Add `sabrina-admin` to the `sudo` group.**
+
+This restored administrative access without compromising any SSH hardening or system security.
+
+---
+
+### 🔹 Phase 4: Testing
 - Verified SSH login via public key from main system:
   ```bash
   ssh sabrina-admin@192.168.x.x
@@ -110,7 +134,7 @@ Local Wi-Fi LAN with SSH access from main workstation. DHCP assigned IP (`192.16
   - Shell login worked
   - Permissions correctly applied
 
-### 🔹 Phase 4: Troubleshooting
+### 🔹 Phase 5: Troubleshooting
 - Disabled on-screen keyboard (`squeekboard`) due to touchscreen interference:
   ```bash
   sudo apt purge squeekboard -y
@@ -134,29 +158,59 @@ The Raspberry Pi 5 was successfully configured to:
 - Deny password or root access
 - Operate cleanly without desktop or touchscreen interference
 
-This project shows competency in Linux administration, remote access control, and security-first thinking — essential skills for sysadmin, DevOps, and security roles.
+This project shows competency in Linux administration, remote access control, and security-first thinking.
+
+## 📸 Recovery Figures and Verification
+
+> The following images are embedded below for clarity, documentation, and reference within this lab.
 
 ---
 
-## Lab Photos
-<p align="center">
-  <img src="./pi-interior.jpg" alt="Raspberry Pi Interior" width="75%" style="border:1px solid #ccc; border-radius:8px; padding:4px;">
-  <br>
-  <em>Figure 1: Internal view of Raspberry Pi 5 with cooling setup installed (fan and heatsink).</em>
-</p>
+### **Figure 1: Mounting the Pi's Filesystem in Fedora**
 
-<p align="center">
-  <img src="./pisetup.jpg" alt="Pi Full Setup" width="75%" style="border:1px solid #ccc; border-radius:8px; padding:4px;">
-  <br>
-  <em>Figure 2: Completed Raspberry Pi 5 setup with touchscreen and wireless keyboard during lab execution.</em>
-</p>
+<img src="consoleaddinginit.png" width="75%" style="border:1px solid #ccc;" alt="Preparing to mount Raspberry Pi partitions in Fedora" />
 
-<p align="center">
-  <img src="./ssh-login.png" alt="SSH Login Success" width="75%" style="border:1px solid #ccc; border-radius:8px; padding:4px;">
-  <br>
-  <em>Figure 3: Successful SSH login from Fedora workstation into Raspberry Pi over local network.</em>
-</p>
+*This shows mounting /dev/sdd1 into /mnt/pi-boot to edit cmdline.txt, preparing the Pi for direct access after SSH lockout*
 
+---
+
+### **Figure 2: Inside the Pi’s Filesystem via chroot**
+
+<img src="goingintopi.png" width="75%" style="border:1px solid #ccc;" alt="Chrooted into the Pi environment" />
+
+*After mounting the full Pi filesystem, this image demonstrates entering a chroot jail on the Pi via Fedora to directly modify system settings (e.g., user password, sudo privileges, resolv.conf). We reset the root password directly from the chrooted Fedora environment.*
+
+---
+
+### **Figure 3: Root login and sudo confirmation*
+
+<img src="iamroot.png" width="75%" style="border:1px solid #ccc;" alt="Console init override for emergency shell access" />
+
+*This confirms that sabrina-admin was added to the sudo group and a password was successfully set for root access.*
+
+---
+
+### **Figure 4: Verifying SSH Login after Recovery**
+
+<img src="ssh-login.png" width="75%" style="border:1px solid #ccc;" alt="Successful SSH login" />
+
+*Demonstrates successful SSH authentication via keypair from Fedora to Raspberry Pi as sabrina-admin, verifying SSH hardening was properly configured.*
+
+---
+
+### **Figure 5: Physical Interior of Raspberry Pi Unit**
+
+<img src="pi-interior.jpg" width="75%" style="border:1px solid #ccc;" alt="SSH into the Pi from Fedora console" />
+
+*Internal view of the Raspberry Pi setup during the lab, highlighting the heatsink and cooling fan used for long-term uptime and security appliance simulation.*
+
+---
+
+### **Figure 6: Full Lab Setup**
+
+<img src="pisetup.jpg" width="75%" style="border:1px solid #ccc;" alt="SSH into the Pi from Fedora console" />
+
+*The complete workstation configuration used for the SSH hardening lab: Pi connected to a 7” screen, compact keyboard with touchpad, and powered by Fedora host for diagnostics.*
 
 ---
 

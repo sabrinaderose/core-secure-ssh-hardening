@@ -138,11 +138,25 @@ This project shows competency in Linux administration, remote access control, an
 
 ---
 
-## 📸 Screenshot Gallery (WIP)
+## Lab Photos
+<p align="center">
+  <img src="./pi-interior.jpg" alt="Raspberry Pi Interior" width="75%" style="border:1px solid #ccc; border-radius:8px; padding:4px;">
+  <br>
+  <em>Figure 1: Internal view of Raspberry Pi 5 with cooling setup installed (fan and heatsink).</em>
+</p>
 
-Stored under `/images/`:
-- `setup_overview.jpg` – physical lab setup
-- `ssh-key-login.png` – successful SSH session
+<p align="center">
+  <img src="./pisetup.jpg" alt="Pi Full Setup" width="75%" style="border:1px solid #ccc; border-radius:8px; padding:4px;">
+  <br>
+  <em>Figure 2: Completed Raspberry Pi 5 setup with touchscreen and wireless keyboard during lab execution.</em>
+</p>
+
+<p align="center">
+  <img src="./ssh-login.png" alt="SSH Login Success" width="75%" style="border:1px solid #ccc; border-radius:8px; padding:4px;">
+  <br>
+  <em>Figure 3: Successful SSH login from Fedora workstation into Raspberry Pi over local network.</em>
+</p>
+
 
 ---
 

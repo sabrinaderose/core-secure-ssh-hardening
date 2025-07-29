@@ -14,7 +14,7 @@ Homelab | Configuration | Documentation
 
 ## Related Certifications
 - CompTIA A+ (Earned)
-- LPI Linux Essentials (In Progress)
+- LPI Linux Essentials (Earned)
 - Cisco CCNA (Upcoming)
 
 ---
